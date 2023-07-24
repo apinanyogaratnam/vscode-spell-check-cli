@@ -34,12 +34,10 @@ func main() {
 	if _, err := os.Stat(settingsPath); err == nil {
 		settingsFile, err := ioutil.ReadFile(settingsPath)
 		if err != nil {
-			log.Println("Failed to read settings:", err)
-			return
+			log.Fatal("Failed to read settings:", err)
 		}
 		if err := json.Unmarshal(settingsFile, &settings); err != nil {
-			log.Println(err)
-			return
+			log.Fatal("Failed to unmarshal settings:", err)
 		}
 		if settings.Words == nil {
 			log.Println("Warning: 'cSpell.words' key not found in settings file. A new key will be added.")
@@ -52,15 +50,21 @@ func main() {
 	// Remove duplicates
 	settings.Words = removeDuplicates(settings.Words)
 
+	// Create the .vscode directory if it does not exist
+	if _, err := os.Stat(".vscode"); os.IsNotExist(err) {
+		err = os.MkdirAll(".vscode", 0755)
+		if err != nil {
+			log.Fatal("Failed to create .vscode directory:", err)
+		}
+	}
+
 	// Write back to settings.json
 	settingsBytes, err := json.MarshalIndent(settings, "", "  ")
 	if err != nil {
-		log.Println("Failed to marshal settings:", err)
-		return
+		log.Fatal("Failed to marshal settings:", err)
 	}
 	if err := ioutil.WriteFile(settingsPath, settingsBytes, 0644); err != nil {
-		log.Println("Failed to write settings:", err)
-		return
+		log.Fatal("Failed to write settings:", err)
 	}
 
 	fmt.Println("Done!")
