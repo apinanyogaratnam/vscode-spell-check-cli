@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"os/exec"
@@ -40,7 +39,7 @@ func main() {
 	// Load existing settings or create a new one
 	settings := Settings{}
 	if _, err := os.Stat(settingsPath); err == nil {
-		settingsFile, err := ioutil.ReadFile(settingsPath)
+		settingsFile, err := os.ReadFile(settingsPath)
 		if err != nil {
 			log.Fatal("Failed to read settings:", err)
 		}
@@ -71,7 +70,7 @@ func main() {
 	if err != nil {
 		log.Fatal("Failed to marshal settings:", err)
 	}
-	if err := ioutil.WriteFile(settingsPath, settingsBytes, 0644); err != nil {
+	if err := os.WriteFile(settingsPath, settingsBytes, 0644); err != nil {
 		log.Fatal("Failed to write settings:", err)
 	}
 
