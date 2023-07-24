@@ -16,7 +16,7 @@ type Settings struct {
 
 func main() {
 	// Run cspell command
-	cmd := exec.Command("npx", "--yes", "cspell", "lint", "src/**/*.rs")
+	cmd := exec.Command("npx", "--yes", "cspell", "lint", "**/*", "--exclude=./main")
 	output, err := cmd.Output()
 
 	if err != nil {
