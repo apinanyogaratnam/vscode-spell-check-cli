@@ -4,6 +4,10 @@ import re
 import json
 
 
+# TODO: error handling for:
+# - .vscode and settings.json not existing
+# - npx not installed
+# settings.json 'cSpell.words' not a key
 def run_cspell_and_parse_output():
     # Run cspell command
     command = ["npx", "--yes", "cspell", "lint", "src/**/*.rs"]
