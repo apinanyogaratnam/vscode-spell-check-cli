@@ -10,7 +10,8 @@ import json
 # settings.json 'cSpell.words' not a key
 def run_cspell_and_parse_output():
     # Run cspell command
-    command = ["npx", "--yes", "cspell", "lint", "src/**/*.rs"]
+    # npx --yes cspell "**/*" --exclude="**/target/**" --exclude="**/out/**"
+    command = ["npx", "--yes", "cspell", "lint", "**/*", "--exclude=./main"]
     result = subprocess.run(
         command,
         capture_output=True,
