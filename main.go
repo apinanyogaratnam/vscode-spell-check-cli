@@ -21,7 +21,6 @@ func main() {
 
 	if err != nil {
 		log.Println("Failed to run cspell:", err)
-		return
 	}
 
 	// Parse output
