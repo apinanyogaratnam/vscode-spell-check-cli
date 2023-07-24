@@ -25,7 +25,15 @@ func main() {
 
 	// Parse output
 	pattern := regexp.MustCompile(`Unknown word \((.*?)\)`)
-	unknownWords := pattern.FindAllString(string(output), -1)
+	matches := pattern.FindAllStringSubmatch(string(output), -1)
+
+	// Extract unknown words from matches
+	var unknownWords []string
+	for _, match := range matches {
+		if len(match) > 1 {
+			unknownWords = append(unknownWords, match[1])
+		}
+	}
 
 	settingsPath := ".vscode/settings.json"
 
